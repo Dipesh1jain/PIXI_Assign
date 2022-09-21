@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <style>
+            *{
+                margin:0;
+            }
+            #progress{
+                position:fixed;
+                top:0;
+                left:0;
+                background-color: green;
+                height:3px;
+                width:0;
+                z-index: 1999;
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.5.2/browser/pixi.js" integrity="sha512-XHX32YCocEDCIiENmO7pf91TtRITLfCagN+uLlj9sJ7RUVBHN1JZtlfb02x4OyXfkuQegd1u6i9mzpRMg+w5xw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </head>
+    <body>
+        <div id="progress"></div>
+        <script>
+            console.log('Pixi ', PIXI);
+            const game = new PIXI.Application({
+                width: innerWidth,
+                height: innerHeight,
+                backgroundColor: 0xff0000,
+                antialiasing:true,
+            });
+            console.log('pixi instance', game);
+            
+
+            const hello = new PIXI.Text('WELCOME ABOARD!!');
+            hello.x = innerWidth/2;
+            hello.y = innerHeight/2;
+            hello.scale.set(4);
+            hello.anchor.set(0.5);
+            hello.style.fill = 0xF2F7FB
+            
+
+            game.loader.add('bg', './1182310 (3).png')
+            
+                .add('img',"./naruto_back.png")
+            .load(
+                () => {
+                    document.body.appendChild(game.view);
+                    const bg = PIXI.Sprite.from('bg');
+                    const img = PIXI.Sprite.from('img');
+
+                    // bg.anchor.set(0.5);
+                    bg.width = innerWidth;
+                    bg.height = innerHeight;
+
+                    game.stage.addChild(bg);
+                    game.stage.addChild(img);
+                    img.anchor.set(0.5);
+                    img.position.x=200;
+                    img.position.y=600;
+                    img.scale.set(0.65);
+                    
+                    
+
+                    game.stage.addChild(hello);
+                }
+            );
+            let pDiv = document.getElementById('progress');
+            game.loader.onProgress.add((e)=>{
+                console.log('loaded ', e.progress);
+                pDiv.style.width = e.progress+"%";
+                if(e.progress === 100){
+                    pDiv.style.width = 0;
+                }
+            })
+            
+        </script>
+    </body>
+</html>
